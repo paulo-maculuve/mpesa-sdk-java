@@ -4,8 +4,6 @@ public interface TransactionRepository {
 
     public String getResponseCode();
 
-    public String getTransactionStatus();
-
     public String getTransactionID();
 
     public String getConversationID();

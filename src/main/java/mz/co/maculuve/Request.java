@@ -91,7 +91,7 @@ public class Request implements MpesaRepository {
     }
 
     private Transaction sendRequest(String port, String endpoint, JSONObject data, String method) throws IOException {
-        String url = this.host + ":" + port + endpoint;
+        String url = "https://" + this.host + ":" + port + endpoint;
 
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(data.toString(), MediaType.get("application/json"));

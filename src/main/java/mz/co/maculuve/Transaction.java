@@ -21,22 +21,20 @@ public class Transaction implements TransactionRepository {
     @JsonProperty("output_ThirdPartyReference")
     private String thirdPartyReference;
 
-    @JsonProperty("output_ResponseTransactionStatus")
-    private String transactionStatus;
 
-    // Construtor
     public Transaction() {}
 
     public Transaction(JSONObject jsonObject) {
+        this.responseCode = jsonObject.optString("output_ResponseCode", null);
+        this.transactionID = jsonObject.optString("output_TransactionID", null);
+        this.conversationID = jsonObject.optString("output_ConversationID", null);
+        this.responseDescription = jsonObject.optString("output_ResponseDesc", null);
+        this.thirdPartyReference = jsonObject.optString("output_ThirdPartyReference", null);
     }
 
     @Override
     public String getResponseCode() {
         return responseCode;
-    }
-    @Override
-    public String getTransactionStatus() {
-        return transactionStatus;
     }
     @Override
     public String getTransactionID() {
@@ -63,7 +61,6 @@ public class Transaction implements TransactionRepository {
                 ", conversationID='" + conversationID + '\'' +
                 ", responseDescription='" + responseDescription + '\'' +
                 ", thirdPartyReference='" + thirdPartyReference + '\'' +
-                ", transactionStatus='" + transactionStatus + '\'' +
                 '}';
     }
 }
