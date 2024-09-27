@@ -17,16 +17,11 @@ public class Mpesa {
 	protected static String origin = "developer.mpesa.vm.co.mz";
 	protected static String status = "";
 	protected static int responseCode = 200;
-
-	private final MpesaProperties mpesaProperties;
+	@Autowired
+	private MpesaProperties mpesaProperties;
 
 	public Mpesa() {
 		this.mpesaProperties = new MpesaProperties();
-	}
-
-	@Autowired
-	public Mpesa(MpesaProperties mpesaProperties) {
-		this.mpesaProperties = mpesaProperties;
 	}
 
 	public static void fake(int responseCode, String status) {

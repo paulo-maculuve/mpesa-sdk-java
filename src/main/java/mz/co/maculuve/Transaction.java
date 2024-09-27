@@ -1,10 +1,7 @@
 package mz.co.maculuve;
 
-import mz.co.maculuve.repository.TransactionRepository;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import mz.co.maculuve.repository.TransactionRepository;
 import org.json.JSONObject;
 
 public class Transaction implements TransactionRepository {
@@ -58,14 +55,15 @@ public class Transaction implements TransactionRepository {
         return thirdPartyReference;
     }
 
-    public String toJson() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "{}";
-        }
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "responseCode='" + responseCode + '\'' +
+                ", transactionID='" + transactionID + '\'' +
+                ", conversationID='" + conversationID + '\'' +
+                ", responseDescription='" + responseDescription + '\'' +
+                ", thirdPartyReference='" + thirdPartyReference + '\'' +
+                ", transactionStatus='" + transactionStatus + '\'' +
+                '}';
     }
-
 }

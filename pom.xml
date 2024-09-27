@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>mz.co.maculuve</groupId>
-    <artifactId>Mpesa</artifactId>
+    <artifactId>mpesa-sdk-java</artifactId>
     <version>1.0</version>
 
     <distributionManagement>
