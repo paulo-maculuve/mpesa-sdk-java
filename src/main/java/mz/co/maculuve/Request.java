@@ -8,6 +8,7 @@ import okhttp3.Response;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Request implements MpesaRepository {
     private String host;
@@ -93,7 +94,11 @@ public class Request implements MpesaRepository {
     private Transaction sendRequest(String port, String endpoint, JSONObject data, String method) throws IOException {
         String url = "https://" + this.host + ":" + port + endpoint;
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
         RequestBody body = RequestBody.create(data.toString(), MediaType.get("application/json"));
 
         okhttp3.Request.Builder requestBuilder = new okhttp3.Request.Builder()
