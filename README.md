@@ -61,11 +61,10 @@ import mz.co.maculuve.Mpesa;
 
 // Configuração da API M-Pesa
 Mpesa.config(
+    environment: "development", // ou "production"
     apiKey: "your-api-key",
     publicKey: "your-public-key",
-    environment: "development", // ou "production"
     serviceProviderCode: "171717",
-    origin: "developer.mpesa.vm.co.mz",
     initiatorIdentifier: "your-initiator-id",
     securityCredential: "your-security-credential"
 );
@@ -85,13 +84,12 @@ import mz.co.maculuve.Mpesa;
 
 // Configuração da API M-Pesa
 Mpesa.config(
-    apiKey: "your-api-key",
-    publicKey: "your-public-key",
-    environment: "development", // ou "production"
-    serviceProviderCode: "171717",
-    origin: "developer.mpesa.vm.co.mz",
-    initiatorIdentifier: "your-initiator-id",
-    securityCredential: "your-security-credential"
+        environment: "development", // ou "production"
+        apiKey: "your-api-key",
+        publicKey: "your-public-key",
+        serviceProviderCode: "171717",
+        initiatorIdentifier: "your-initiator-id",
+        securityCredential: "your-security-credential"
 );
 
 String transactionReference = generateShortUUID(); 
@@ -109,13 +107,12 @@ import mz.co.maculuve.Mpesa;
 
 // Configuração da API M-Pesa
 Mpesa.config(
-    apiKey: "your-api-key",
-    publicKey: "your-public-key",
-    environment: "development", // ou "production"
-    serviceProviderCode: "171717",
-    origin: "developer.mpesa.vm.co.mz",
-    initiatorIdentifier: "your-initiator-id",
-    securityCredential: "your-security-credential"
+        environment: "development", // ou "production"
+        apiKey: "your-api-key",
+        publicKey: "your-public-key",
+        serviceProviderCode: "171717",
+        initiatorIdentifier: "your-initiator-id",
+        securityCredential: "your-security-credential"
 );
 
 String transactionReference = generateShortUUID(); 
@@ -133,13 +130,12 @@ import mz.co.maculuve.Mpesa;
 
 // Configuração da API M-Pesa
 Mpesa.config(
-    apiKey: "your-api-key",
-    publicKey: "your-public-key",
-    environment: "development", // ou "production"
-    serviceProviderCode: "171717",
-    origin: "developer.mpesa.vm.co.mz",
-    initiatorIdentifier: "your-initiator-id",
-    securityCredential: "your-security-credential"
+        environment: "development", // ou "production"
+        apiKey: "your-api-key",
+        publicKey: "your-public-key",
+        serviceProviderCode: "171717",
+        initiatorIdentifier: "your-initiator-id",
+        securityCredential: "your-security-credential"
 );
 
 String transactionReference = generateShortUUID(); 
@@ -157,13 +153,12 @@ import mz.co.maculuve.Mpesa;
 
 // Configuração da API M-Pesa
 Mpesa.config(
-    apiKey: "your-api-key",
-    publicKey: "your-public-key",
-    environment: "development", // ou "production"
-    serviceProviderCode: "171717",
-    origin: "developer.mpesa.vm.co.mz",
-    initiatorIdentifier: "your-initiator-id",
-    securityCredential: "your-security-credential"
+        environment: "development", // ou "production"
+        apiKey: "your-api-key",
+        publicKey: "your-public-key",
+        serviceProviderCode: "171717",
+        initiatorIdentifier: "your-initiator-id",
+        securityCredential: "your-security-credential"
 );
 
 String transactionReference = generateShortUUID(); 

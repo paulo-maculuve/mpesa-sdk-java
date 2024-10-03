@@ -12,12 +12,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Mpesa extends Config {
-	protected static boolean fake = false;
-	protected static String developmentHost = "https://api.sandbox.vm.co.mz";
-	protected static String productionHost = "https://api.vm.co.mz";
-	protected static String origin = "developer.mpesa.vm.co.mz";
-	protected static String status = "";
-	protected static int responseCode = 200;
 	@Autowired
 	private MpesaProperties mpesaProperties;
 
@@ -25,22 +19,8 @@ public class Mpesa extends Config {
 		this.mpesaProperties = new MpesaProperties();
 	}
 
-	public static void fake(int responseCode, String status) {
-		Mpesa.fake = true;
-		Mpesa.status = status;
-		Mpesa.responseCode = responseCode;
-	}
-
-	public void setStatus(String status) {
-		Mpesa.status = status;
-	}
-
-	public void setResponseCode(int code) {
-		Mpesa.responseCode = code;
-	}
-
 	public Transaction c2b(double amount, String msisdn, String transactionReference, String thirdPartyReference)
-			throws Exception {
+			throws IOException {
 		return new Mpesa().mPesa().c2b(amount, msisdn, transactionReference, thirdPartyReference);
 	}
 
@@ -67,7 +47,7 @@ public class Mpesa extends Config {
         try {
            String token = GenerateToken.parse(Config.getApiKey(), Config.getPublicKey());
 			Request mpesaRequest = new Request(Config.getHost(), Config.getOrigin(), token, Config.getServiceProviderCode(), Config.getInitiatorIdentifier(), Config.getSecurityCredential());
-			return mpesaRequest.setCall(fake, responseCode, status);
+			return mpesaRequest;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

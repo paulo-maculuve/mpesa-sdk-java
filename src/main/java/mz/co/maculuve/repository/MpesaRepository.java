@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public interface MpesaRepository {
 
-    public Transaction c2b(double amount, String msisdn, String transactionReference, String thirdPartyReference) throws Exception;
+    public Transaction c2b(double amount, String msisdn, String transactionReference, String thirdPartyReference) throws IOException;
 
     public Transaction b2c(double amount, String msisdn, String transactionReference, String thirdPartyReference) throws IOException;
 

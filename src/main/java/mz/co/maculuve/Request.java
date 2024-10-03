@@ -8,19 +8,18 @@ import okhttp3.Response;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;
 
 public class Request implements MpesaRepository {
-    private String host;
-    private String origin;
-    private String token;
-    private String serviceProviderCode;
-    private String initiatorIdentifier;
-    private String securityCredential;
+    private final String host;
+    private final String origin;
+    private final String token;
+    private final String serviceProviderCode;
+    private final String initiatorIdentifier;
+    private final String securityCredential;
 
-    private boolean fake;
-    private int responseCode;
-    private String responseStatus;
+
 
     public Request(String host, String origin, String token, String serviceProviderCode,
                    String initiatorIdentifier, String securityCredential) {
@@ -32,13 +31,6 @@ public class Request implements MpesaRepository {
         this.securityCredential = securityCredential;
     }
 
-
-    public MpesaRepository setCall(boolean fake, int code, String status) {
-        this.fake = fake;
-        this.responseCode = code;
-        this.responseStatus = status;
-        return this;
-    }
     @Override
     public Transaction c2b(double amount, String msisdn, String transactionReference, String thirdPartyReference) throws IOException {
         String port = "18352";
@@ -67,7 +59,20 @@ public class Request implements MpesaRepository {
         data.put("input_ServiceProviderCode", this.serviceProviderCode);
         data.put("input_InitiatorIdentifier", this.initiatorIdentifier);
         data.put("input_SecurityCredential", this.securityCredential);
-        return sendRequest(port, "/ipg/v1x/reversal/", data, "PUT");
+        try {
+            return sendRequest(port, "/ipg/v1x/reversal/", data, "PUT");
+        } catch (SocketTimeoutException e) {
+            System.out.println("Transaction request failed due to timeout: " + e.getMessage());
+            return null;
+
+        } catch (IOException e) {
+            System.out.println("Erro de rede ao iniciar a transação: " + e.getMessage());
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Ocorreu um erro inesperado ao iniciar a transação: " + e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -77,7 +82,20 @@ public class Request implements MpesaRepository {
         data.put("input_QueryReference", transactionReference);
         data.put("input_ThirdPartyReference", thirdPartyReference);
         data.put("input_ServiceProviderCode", this.serviceProviderCode);
-        return sendRequest(port, "/ipg/v1x/queryTransactionStatus/", data, "GET");
+        try {
+            return sendRequest(port, "/ipg/v1x/queryTransactionStatus/", data, "GET");
+        } catch (SocketTimeoutException e) {
+            System.out.println("Transaction request failed due to timeout: " + e.getMessage());
+            return null;
+
+        } catch (IOException e) {
+            System.out.println("Network error when starting the transaction: " + e.getMessage());
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred when starting the transaction: " + e.getMessage());
+            return null;
+        }
     }
 
     private Transaction initiateTransaction(String port, double amount, String msisdn, String transactionReference,
@@ -88,16 +106,30 @@ public class Request implements MpesaRepository {
         data.put("input_Amount", amount);
         data.put("input_ThirdPartyReference", thirdPartyReference);
         data.put("input_ServiceProviderCode", this.serviceProviderCode);
-        return sendRequest(port, endpoint, data, "POST");
+        try {
+            return sendRequest(port, endpoint, data, "POST");
+
+        } catch (SocketTimeoutException e) {
+            System.out.println("Transaction request failed due to timeout: " + e.getMessage());
+            return null;
+
+        } catch (IOException e) {
+            System.out.println("Network error when starting the transaction: " + e.getMessage());
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred when starting the transaction: " + e.getMessage());
+            return null;
+        }
     }
 
     private Transaction sendRequest(String port, String endpoint, JSONObject data, String method) throws IOException {
         String url = "https://" + this.host + ":" + port + endpoint;
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(70, TimeUnit.SECONDS)
+                .writeTimeout(70, TimeUnit.SECONDS)
+                .readTimeout(70, TimeUnit.SECONDS)
                 .build();
         RequestBody body = RequestBody.create(data.toString(), MediaType.get("application/json"));
 
