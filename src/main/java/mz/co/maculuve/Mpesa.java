@@ -2,56 +2,50 @@ package mz.co.maculuve;
 
 import mz.co.maculuve.helpers.Config;
 import mz.co.maculuve.helpers.GenerateToken;
-import mz.co.maculuve.helpers.MpesaProperties;
 import mz.co.maculuve.repository.MpesaRepository;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Service
 public class Mpesa extends Config {
-	@Autowired
-	private MpesaProperties mpesaProperties;
 
-	public Mpesa() {
-		this.mpesaProperties = new MpesaProperties();
-	}
+    public CompletableFuture<Transaction> c2b(double amount, String msisdn, String transactionReference, String thirdPartyReference)
+            throws IOException {
+        return mPesa().c2b(amount, msisdn, transactionReference, thirdPartyReference);
+    }
 
-	public Transaction c2b(double amount, String msisdn, String transactionReference, String thirdPartyReference)
-			throws IOException {
-		return new Mpesa().mPesa().c2b(amount, msisdn, transactionReference, thirdPartyReference);
-	}
+    public CompletableFuture<Transaction> b2b(double amount, String msisdn, String transactionReference, String thirdPartyReference)
+            throws IOException {
+        return mPesa().b2b(amount, msisdn, transactionReference, thirdPartyReference);
+    }
 
-	public Transaction b2b(double amount, String msisdn, String transactionReference, String thirdPartyReference)
-			throws IOException {
-		return new Mpesa().mPesa().b2b(amount, msisdn, transactionReference, thirdPartyReference);
-	}
+    public CompletableFuture<Transaction> b2c(double amount, String msisdn, String transactionReference, String thirdPartyReference)
+            throws IOException {
+        return mPesa().b2c(amount, msisdn, transactionReference, thirdPartyReference);
+    }
 
-	public Transaction b2c(double amount, String msisdn, String transactionReference, String thirdPartyReference)
-			throws IOException {
-		return new Mpesa().mPesa().b2c(amount, msisdn, transactionReference, thirdPartyReference);
-	}
+    public CompletableFuture<Transaction> transaction(String transactionReference, String thirdPartyReference) throws IOException {
+        return mPesa().transaction(transactionReference, thirdPartyReference);
+    }
 
-	public Transaction transaction(String transactionReference, String thirdPartyReference) throws IOException {
-		return new Mpesa().mPesa().transaction(transactionReference, thirdPartyReference);
-	}
+    public CompletableFuture<Transaction> reversal(double amount, String transactionID, String thirdPartyReference)
+            throws IOException {
+        return mPesa().reversal(amount, transactionID, thirdPartyReference);
+    }
 
-	public Transaction reversal(double amount, String transactionID, String thirdPartyReference)
-			throws IOException {
-		return new Mpesa().mPesa().reversal(amount, transactionID, thirdPartyReference);
-	}
-
-	protected MpesaRepository mPesa() {
+    protected MpesaRepository mPesa() {
         try {
-           String token = GenerateToken.parse(Config.getApiKey(), Config.getPublicKey());
-			Request mpesaRequest = new Request(Config.getHost(), Config.getOrigin(), token, Config.getServiceProviderCode(), Config.getInitiatorIdentifier(), Config.getSecurityCredential());
-			return mpesaRequest;
+            String token = GenerateToken.parse(Config.getApiKey(), Config.getPublicKey());
+            return new Request(
+                    Config.getHost(),
+                    Config.getOrigin(),
+                    token,
+                    Config.getServiceProviderCode(),
+                    Config.getInitiatorIdentifier(),
+                    Config.getSecurityCredential()
+            );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-	}
+    }
 }
